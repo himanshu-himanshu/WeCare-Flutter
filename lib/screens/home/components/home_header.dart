@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:milestone/screens/home/home_screen.dart';
+import 'package:milestone/screens/patient/add/add_patient.dart';
 import 'package:milestone/size_config.dart';
 import 'icon_button.dart';
 import 'search_field.dart';
@@ -22,7 +23,8 @@ class HomeHeader extends StatelessWidget {
           IconBtnWithCounter(
             svgSrc: "assets/icons/Plus Icon.svg",
             numOfitem: 0,
-            press: () {},
+            press: () =>
+                Navigator.pushNamed(context, AddPatient.routeName),
           ),
         ],
       ),
