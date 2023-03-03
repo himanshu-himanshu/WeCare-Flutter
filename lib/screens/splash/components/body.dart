@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:milestone/screens/home/home_screen.dart';
 import 'package:milestone/size_config.dart';
 import 'package:milestone/constants.dart';
 
@@ -52,7 +53,7 @@ class _BodyState extends State<Body> {
                     DefaultBtn(
                       text: "Continue",
                       press: () {
-                        // Navigator.pushNamed(context, SignInScreen.routeName);
+                         Navigator.pushNamed(context, HomeScreen.routeName);
                       },
                     ),
                     Spacer(),
