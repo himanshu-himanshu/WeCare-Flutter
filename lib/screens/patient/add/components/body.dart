@@ -12,11 +12,11 @@ class Body extends StatelessWidget {
         width: double.infinity,
         child: Padding(
           padding:
-          EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
+              EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
           child: SingleChildScrollView(
             child: Column(
               children: [
-               AddPatientHeader(),
+                const AddPatientHeader(),
                 SizedBox(height: SizeConfig.screenHeight * 0.05),
                 MyCustomForm(),
               ],
