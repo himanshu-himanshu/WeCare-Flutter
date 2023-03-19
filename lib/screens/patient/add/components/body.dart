@@ -18,7 +18,7 @@ class Body extends StatelessWidget {
               children: [
                 const AddPatientHeader(),
                 SizedBox(height: SizeConfig.screenHeight * 0.05),
-                MyCustomForm(),
+                const MyCustomForm(),
               ],
             ),
           ),

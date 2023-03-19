@@ -5,6 +5,8 @@ import 'package:milestone/screens/patient/add/components/body.dart';
 
 class AddPatient extends StatelessWidget {
   static String routeName = "/add_patient";
+
+  const AddPatient({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
