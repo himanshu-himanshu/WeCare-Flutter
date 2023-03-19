@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:milestone/screens/patient/profile/profile.dart';
 import 'package:milestone/size_config.dart';
 import 'home_header.dart';
 import 'package:http/http.dart' as http;
@@ -61,13 +62,13 @@ class Body extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Padding(
-                  padding: EdgeInsets.all(15),
+                  padding: EdgeInsets.all(20),
                   child: Text(
                     "All Patients",
                     style: TextStyle(
-                        fontSize: 14,
+                        fontSize: 18,
                         fontWeight: FontWeight.bold,
-                        color: Colors.green),
+                        color: const Color(0xffb74093)),
                   ),
                 ),
                 Center(
@@ -79,11 +80,23 @@ class Body extends StatelessWidget {
                           shrinkWrap: true,
                           itemCount: snapshot.data!.length,
                           itemBuilder: (context, index) {
-                            return ListTile(
-                              title:
-                                  Text(snapshot.data![index].name.toString()),
-                              trailing:
-                                  Text(snapshot.data![index].phone.toString()),
+                            return Card(
+                              color: Colors.white,
+                              margin: EdgeInsets.symmetric(vertical: 4, horizontal: 4),
+                              child: ListTile(
+                                onTap: () {
+                                  Navigator.pushNamed(context, Profile.routeName);
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(content: Text('Gesture Detected!')));
+                                  },
+                                hoverColor: Colors.amber,
+                                  leading: CircleAvatar(
+                                      backgroundColor: const Color(0xffb74093),
+                                      child: Text(snapshot.data![index].name[0].toUpperCase(), style: const TextStyle(fontSize: 15, color: Colors.white))),
+                                  title: Text(snapshot.data![index].name.toString(), style: const TextStyle(fontSize: 15, color: Colors.deepPurple)),
+                                trailing:
+                                    Text(snapshot.data![index].phone.toString(), style: const TextStyle(fontSize: 12, color: Colors.black45)),
+                              ),
                             );
                           },
                         );
@@ -96,12 +109,6 @@ class Body extends StatelessWidget {
                 ),
               ],
             ),
-            // DiscountBanner(),
-            // Categories(),
-            // SpecialOffers(),
-            // SizedBox(height: getProportionateScreenWidth(30)),
-            // PopularProducts(),
-            // SizedBox(height: getProportionateScreenWidth(30)),
           ],
         ),
       ),
