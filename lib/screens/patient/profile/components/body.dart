@@ -142,7 +142,7 @@ class Body extends StatelessWidget {
                       SizedBox(width: 30),
                       Expanded(
                         flex: 5,
-                        child: Text("Total Test: 0",
+                        child: Text("Total Tests: 0",
                             style: TextStyle(
                                 fontSize: 16, fontWeight: FontWeight.w600)),
                       ),

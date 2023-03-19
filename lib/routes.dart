@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:milestone/screens/patient/addTest/addTest.dart';
 import 'package:milestone/screens/patient/tests/tests.dart';
 import 'screens/splash/splash_screen.dart';
 import 'package:milestone/screens/home/home_screen.dart';
@@ -13,4 +14,5 @@ final Map<String, WidgetBuilder> routes = {
   AddPatient.routeName: (context) => AddPatient(),
   Profile.routeName: (context) => Profile(),
   Tests.routeName: (context) => Tests(),
+  AddTest.routeName: (context) => AddTest(),
 };

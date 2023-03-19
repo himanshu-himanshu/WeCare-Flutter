@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:milestone/screens/home/home_screen.dart';
-import 'package:milestone/screens/patient/add/add_patient.dart';
+import 'package:milestone/screens/patient/addTest/addTest.dart';
 import 'package:milestone/size_config.dart';
 import 'icon_button.dart';
 import 'search_field.dart';
@@ -24,7 +23,7 @@ class TestsHeader extends StatelessWidget {
             svgSrc: "assets/icons/Plus Icon.svg",
             numOfitem: 0,
             press: () =>
-                Navigator.pushNamed(context, AddPatient.routeName),
+                Navigator.pushNamed(context, AddTest.routeName),
           ),
         ],
       ),
