@@ -3,8 +3,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:milestone/screens/patient/profile/profile.dart';
 import 'package:milestone/size_config.dart';
-import 'home_header.dart';
 import 'package:http/http.dart' as http;
+import '../../../patient/tests//components/tests_header.dart';
 
 Future<List<Patient>> fetchPatients() async {
   final response = await http.get(Uri.parse('http://localhost:8001/patients'));
@@ -28,11 +28,11 @@ class Patient {
 
   const Patient(
       {required this.name,
-      required this.phone,
-      required this.dob,
-      required this.address,
-      required this.country,
-      required this.bloodGroup});
+        required this.phone,
+        required this.dob,
+        required this.address,
+        required this.country,
+        required this.bloodGroup});
 
   factory Patient.fromJson(Map<String, dynamic> json) {
     return Patient(
@@ -55,8 +55,8 @@ class Body extends StatelessWidget {
       child: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(height: getProportionateScreenHeight(20)),
-            const HomeHeader(),
+            SizedBox(height: getProportionateScreenWidth(10)),
+            const TestsHeader(),
             SizedBox(height: getProportionateScreenWidth(10)),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -64,7 +64,7 @@ class Body extends StatelessWidget {
                 const Padding(
                   padding: EdgeInsets.all(20),
                   child: Text(
-                    "All Patients",
+                    "Test Records",
                     style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
@@ -85,17 +85,17 @@ class Body extends StatelessWidget {
                               margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 4),
                               child: ListTile(
                                 onTap: () {
-                                  Navigator.pushNamed(context, Profile.routeName);
-                                  // ScaffoldMessenger.of(context).showSnackBar(
-                                  //   const SnackBar(content: Text('Gesture Detected!')));
-                                  },
+                                  // Navigator.pushNamed(context, Profile.routeName);
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(content: Text('Go To Test')));
+                                },
                                 hoverColor: Colors.amber,
-                                  leading: CircleAvatar(
-                                      backgroundColor: const Color(0xffb74093),
-                                      child: Text(snapshot.data![index].name[0].toUpperCase(), style: const TextStyle(fontSize: 15, color: Colors.white))),
-                                  title: Text(snapshot.data![index].name.toString(), style: const TextStyle(fontSize: 15, color: Colors.deepPurple)),
+                                leading: CircleAvatar(
+                                    backgroundColor: const Color(0xffb74093),
+                                    child: Text(snapshot.data![index].name[0].toUpperCase(), style: const TextStyle(fontSize: 15, color: Colors.white))),
+                                title: Text(snapshot.data![index].name.toString(), style: const TextStyle(fontSize: 15, color: Colors.deepPurple)),
                                 trailing:
-                                    Text(snapshot.data![index].phone.toString(), style: const TextStyle(fontSize: 12, color: Colors.black45)),
+                                Text(snapshot.data![index].phone.toString(), style: const TextStyle(fontSize: 12, color: Colors.black45)),
                               ),
                             );
                           },
