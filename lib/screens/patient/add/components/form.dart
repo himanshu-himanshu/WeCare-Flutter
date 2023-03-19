@@ -42,16 +42,17 @@ class MyCustomForm extends StatefulWidget {
   }
 }
 
-void addPatient(BuildContext context) async {
+void addPatient(BuildContext context, name, phone, dob, address, country,
+    bloodGroup) async {
   final uri = Uri.parse('http://localhost:8001/patients');
   final headers = {'Content-Type': 'application/json'};
   Map<String, dynamic> body = {
-    "name": "test1",
-    "phone": "gold",
-    "dob": "12/02/1993",
-    "address": "16 suburban dr",
-    "country": "Canada",
-    "bloodGroup": "B+"
+    "name": name,
+    "phone": phone,
+    "dob": dob,
+    "address": address,
+    "country": country,
+    "bloodGroup": bloodGroup
   };
   print(body);
   String jsonBody = json.encode(body);
@@ -77,6 +78,12 @@ void addPatient(BuildContext context) async {
 class MyCustomFormState extends State<MyCustomForm> {
   // Create a global key that uniquely identifies the Form widget
   // and allows validation of the form.
+  final nameCtrl = TextEditingController();
+  final phoneCtrl = TextEditingController();
+  final dobCtrl = TextEditingController();
+  final addressCtrl = TextEditingController();
+  final countryCtrl = TextEditingController();
+  final bloodGroupCtrl = TextEditingController();
   MyCustomFormState({
     Key? key,
     required this.hintText,
@@ -110,9 +117,11 @@ class MyCustomFormState extends State<MyCustomForm> {
               // ignore: body_might_complete_normally_nullable
               validator: (value) {
                 if (value == "") {
-                  return 'Preencha a senha';
+                  return 'Enter Name';
                 }
+                return null;
               },
+              controller: nameCtrl,
             ),
             SizedBox(height: SizeConfig.screenHeight * 0.02),
             TextFormField(
@@ -122,9 +131,11 @@ class MyCustomFormState extends State<MyCustomForm> {
               ),
               validator: (value) {
                 if (value == "") {
-                  return 'Preencha a senha';
+                  return 'Enter phone number';
                 }
+                return null;
               },
+              controller: phoneCtrl,
             ),
             SizedBox(height: SizeConfig.screenHeight * 0.02),
             TextFormField(
@@ -134,9 +145,11 @@ class MyCustomFormState extends State<MyCustomForm> {
               ),
               validator: (value) {
                 if (value == "") {
-                  return 'Preencha a senha';
+                  return 'Enter date of birth';
                 }
+                return null;
               },
+              controller: dobCtrl,
             ),
             SizedBox(height: SizeConfig.screenHeight * 0.02),
             TextFormField(
@@ -146,9 +159,11 @@ class MyCustomFormState extends State<MyCustomForm> {
               ),
               validator: (value) {
                 if (value == "") {
-                  return 'Preencha a senha';
+                  return 'Enter address';
                 }
+                return null;
               },
+              controller: addressCtrl,
             ),
             SizedBox(height: SizeConfig.screenHeight * 0.02),
             TextFormField(
@@ -158,9 +173,11 @@ class MyCustomFormState extends State<MyCustomForm> {
               ),
               validator: (value) {
                 if (value == "") {
-                  return 'Preencha a senha';
+                  return 'Enter country';
                 }
+                return null;
               },
+              controller: countryCtrl,
             ),
             SizedBox(height: SizeConfig.screenHeight * 0.02),
             TextFormField(
@@ -170,9 +187,11 @@ class MyCustomFormState extends State<MyCustomForm> {
               ),
               validator: (value) {
                 if (value == "") {
-                  return 'Preencha a senha';
+                  return 'Enter blood group';
                 }
+                return null;
               },
+              controller: bloodGroupCtrl,
             ),
             SizedBox(height: SizeConfig.screenHeight * 0.04),
             SizedBox(
@@ -180,9 +199,14 @@ class MyCustomFormState extends State<MyCustomForm> {
                 height: 60,
                 child: ElevatedButton(
                   onPressed: () {
-                    if (_formKey.currentState?.validate()) {
-                      addPatient(context);
-                    }
+                    addPatient(
+                        context,
+                        nameCtrl.text,
+                        phoneCtrl.text,
+                        dobCtrl.text,
+                        addressCtrl.text,
+                        countryCtrl.text,
+                        bloodGroupCtrl.text);
                   },
                   style: ElevatedButton.styleFrom(
                       shape: const StadiumBorder(),
