@@ -1,25 +1,52 @@
 import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:milestone/constants.dart';
 import 'package:milestone/screens/home/home_screen.dart';
 import 'package:milestone/size_config.dart';
-import 'package:http/http.dart' as http;
 import 'package:validatorless/validatorless.dart';
 
-class MyCustomForm extends StatefulWidget {
-  const MyCustomForm();
+class EditPatient extends StatelessWidget {
+  static String routeName = "/edit_patient";
+
+  const EditPatient({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(
+          title: const Text(
+            'Edit Patient',
+            style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Color(0xffb74093)),
+          ),
+        ),
+        body: Padding(
+            padding: EdgeInsets.symmetric(
+                horizontal: getProportionateScreenWidth(20),
+                vertical: getProportionateScreenWidth(5)),
+            child: const MyCustomEditPatientForm()));
+  }
+}
+
+class MyCustomEditPatientForm extends StatefulWidget {
+  const MyCustomEditPatientForm({super.key});
 
   @override
-  MyCustomFormState createState() {
-    return MyCustomFormState();
+  MyCustomEditPatientFormState createState() {
+    return MyCustomEditPatientFormState();
   }
 }
 
 // Create a corresponding State class. This class holds data related to the form.
-class MyCustomFormState extends State<MyCustomForm> {
-  MyCustomFormState();
+class MyCustomEditPatientFormState extends State<MyCustomEditPatientForm> {
+  MyCustomEditPatientFormState();
   // Create a global key that uniquely identifies the Form widget
   // and allows validation of the form.
+  // final args = ModalRoute.of(context)!.settings.arguments as ScreenArguments;
+
   final nameCtrl = TextEditingController();
   final phoneCtrl = TextEditingController();
   final dobCtrl = TextEditingController();
@@ -27,9 +54,9 @@ class MyCustomFormState extends State<MyCustomForm> {
   final countryCtrl = TextEditingController();
   final bloodGroupCtrl = TextEditingController();
 
-  final _formKey = GlobalKey<MyCustomFormState>();
+  final _formKey = GlobalKey<MyCustomEditPatientFormState>();
 
-  void addPatient(BuildContext context, name, phone, dob, address, country,
+  void updatePatient(BuildContext context, name, phone, dob, address, country,
       bloodGroup) async {
     final uri = Uri.parse('http://localhost:8001/patients');
     final headers = {'Content-Type': 'application/json'};
@@ -50,13 +77,15 @@ class MyCustomFormState extends State<MyCustomForm> {
       body: jsonBody,
       encoding: encoding,
     );
-    // int statusCode = response.statusCode;
-    // String responseBody = response.body;
-    // ignore: use_build_context_synchronously
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const HomeScreen()),
-    );
+    int statusCode = response.statusCode;
+    if (statusCode == 200) {
+      // String responseBody = response.body;
+      // ignore: use_build_context_synchronously
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const HomeScreen()),
+      );
+    }
   }
 
   @override
@@ -155,8 +184,8 @@ class MyCustomFormState extends State<MyCustomForm> {
                 height: 60,
                 child: ElevatedButton(
                   onPressed: () {
-                    print(
-                        "${nameCtrl.text}, ${phoneCtrl.text}, ${dobCtrl.text}, ${addressCtrl.text}, ${countryCtrl.text}, ${bloodGroupCtrl.text}");
+                    // print(
+                    //     "${nameCtrl.text}, ${phoneCtrl.text}, ${dobCtrl.text}, ${addressCtrl.text}, ${countryCtrl.text}, ${bloodGroupCtrl.text}");
                     var msg = "";
                     if (nameCtrl.text.isEmpty) {
                       msg = "Name is required\n ";
@@ -176,7 +205,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                     if (bloodGroupCtrl.text.isEmpty) {
                       msg += "Blood Group is required\n ";
                     }
-                    print(msg);
+                    // print(msg);
                     if (!msg.isEmpty) {
                       showDialog<String>(
                         context: context,
@@ -192,7 +221,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                         ),
                       );
                     }
-                    addPatient(
+                    updatePatient(
                         context,
                         nameCtrl.text,
                         phoneCtrl.text,
@@ -206,7 +235,7 @@ class MyCustomFormState extends State<MyCustomForm> {
                       elevation: 10,
                       backgroundColor: kPrimaryColor,
                       textStyle: const TextStyle(fontSize: 20)),
-                  child: const Text("Register"),
+                  child: const Text("UPDATE"),
                 )),
           ],
         ),

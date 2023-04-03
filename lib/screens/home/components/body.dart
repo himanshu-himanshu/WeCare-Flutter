@@ -11,7 +11,7 @@ Future<List<Patient>> fetchPatients() async {
   if (response.statusCode == 200) {
     var k = json.decode(response.body);
     final List result = k['data'];
-    print(result);
+    print(result[0]);
     return result.map((e) => Patient.fromJson(e)).toList();
   } else {
     throw Exception('Failed to load data');
@@ -19,31 +19,52 @@ Future<List<Patient>> fetchPatients() async {
 }
 
 class Patient {
+  final String id;
   final String name;
   final String phone;
   final String dob;
   final String address;
   final String country;
   final String bloodGroup;
+  // final String risk;
 
   const Patient(
-      {required this.name,
+      {required this.id,
+      required this.name,
       required this.phone,
       required this.dob,
       required this.address,
       required this.country,
-      required this.bloodGroup});
+      required this.bloodGroup
+      // required this.risk
+      });
 
   factory Patient.fromJson(Map<String, dynamic> json) {
     return Patient(
-      name: json['name'],
-      phone: json['phone'],
-      dob: json['dob'],
-      address: json['address'],
-      country: json['country'],
-      bloodGroup: json['bloodGroup'],
-    );
+        id: json['_id'],
+        name: json['name'],
+        phone: json['phone'],
+        dob: json['dob'],
+        address: json['address'],
+        country: json['country'],
+        bloodGroup: json['bloodGroup']
+        // risk: json['risk'],
+        );
   }
+}
+
+class ScreenArguments {
+  final String id;
+  final String name;
+  final String phone;
+  final String dob;
+  final String address;
+  final String country;
+  final String bloodGroup;
+  // final String risk;
+
+  ScreenArguments(this.id, this.name, this.phone, this.dob, this.address,
+      this.country, this.bloodGroup);
 }
 
 class Body extends StatelessWidget {
@@ -68,7 +89,7 @@ class Body extends StatelessWidget {
                     style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.bold,
-                        color: const Color(0xffb74093)),
+                        color: Color(0xffb74093)),
                   ),
                 ),
                 Center(
@@ -82,20 +103,41 @@ class Body extends StatelessWidget {
                           itemBuilder: (context, index) {
                             return Card(
                               color: Colors.white,
-                              margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 4),
+                              margin: const EdgeInsets.symmetric(
+                                  vertical: 4, horizontal: 4),
                               child: ListTile(
                                 onTap: () {
-                                  Navigator.pushNamed(context, Profile.routeName);
+                                  Navigator.pushNamed(
+                                      context, Profile.routeName,
+                                      arguments: ScreenArguments(
+                                          snapshot.data![index].id,
+                                          snapshot.data![index].name,
+                                          snapshot.data![index].phone,
+                                          snapshot.data![index].dob,
+                                          snapshot.data![index].address,
+                                          snapshot.data![index].country,
+                                          snapshot.data![index].bloodGroup));
                                   // ScaffoldMessenger.of(context).showSnackBar(
                                   //   const SnackBar(content: Text('Gesture Detected!')));
-                                  },
+                                },
                                 hoverColor: Colors.amber,
-                                  leading: CircleAvatar(
-                                      backgroundColor: const Color(0xffb74093),
-                                      child: Text(snapshot.data![index].name[0].toUpperCase(), style: const TextStyle(fontSize: 15, color: Colors.white))),
-                                  title: Text(snapshot.data![index].name.toString(), style: const TextStyle(fontSize: 15, color: Colors.deepPurple)),
-                                trailing:
-                                    Text(snapshot.data![index].phone.toString(), style: const TextStyle(fontSize: 12, color: Colors.black45)),
+                                leading: CircleAvatar(
+                                    backgroundColor: const Color(0xffb74093),
+                                    child: Text(
+                                        snapshot.data![index].name[0]
+                                            .toUpperCase(),
+                                        style: const TextStyle(
+                                            fontSize: 15,
+                                            color: Colors.white))),
+                                title: Text(
+                                    snapshot.data![index].name.toString(),
+                                    style: const TextStyle(
+                                        fontSize: 15,
+                                        color: Colors.deepPurple)),
+                                trailing: Text(
+                                    snapshot.data![index].phone.toString(),
+                                    style: const TextStyle(
+                                        fontSize: 12, color: Colors.black45)),
                               ),
                             );
                           },

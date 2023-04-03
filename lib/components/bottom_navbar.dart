@@ -4,6 +4,8 @@ import 'package:milestone/constants.dart';
 import 'package:milestone/enums.dart';
 import 'package:milestone/screens/home/home_screen.dart';
 
+import '../screens/patient/tests/tests.dart';
+
 class CustomBottomNavBar extends StatelessWidget {
   const CustomBottomNavBar({
     Key? key,
@@ -16,17 +18,17 @@ class CustomBottomNavBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final Color inActiveIconColor = Color(0xFFB6B6B6);
     return Container(
-      padding: EdgeInsets.symmetric(vertical: 14),
+      padding: const EdgeInsets.symmetric(vertical: 14),
       decoration: BoxDecoration(
         color: Colors.white,
         boxShadow: [
           BoxShadow(
-            offset: Offset(0, -15),
+            offset: const Offset(0, -15),
             blurRadius: 20,
-            color: Color(0xFFDADADA).withOpacity(0.15),
+            color: const Color(0xFFDADADA).withOpacity(0.15),
           ),
         ],
-        borderRadius: BorderRadius.only(
+        borderRadius: const BorderRadius.only(
           topLeft: Radius.circular(40),
           topRight: Radius.circular(40),
         ),
@@ -51,9 +53,9 @@ class CustomBottomNavBar extends StatelessWidget {
                   "assets/icons/Heart Icon.svg",
                   color: MenuState.critical == selectedMenu
                       ? kPrimaryColor
-                      : inActiveIconColor,),
-                onPressed: () =>
-                    Navigator.pushNamed(context, HomeScreen.routeName),
+                      : inActiveIconColor,
+                ),
+                onPressed: () => Navigator.pushNamed(context, Tests.routeName),
               ),
               // IconButton(
               //   icon: SvgPicture.asset("assets/icons/Plus Icon.svg"),

@@ -14,17 +14,16 @@ class HomeHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding:
-      EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
+          EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          SearchField(),
+          const SearchField(),
           /** Icon for showing number of critical patient's*/
           IconBtnWithCounter(
             svgSrc: "assets/icons/Plus Icon.svg",
             numOfitem: 0,
-            press: () =>
-                Navigator.pushNamed(context, AddPatient.routeName),
+            press: () => Navigator.pushNamed(context, AddPatient.routeName),
           ),
         ],
       ),
