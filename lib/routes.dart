@@ -9,10 +9,10 @@ import 'package:milestone/screens/patient/profile/profile.dart';
 // We use name route
 // All our routes will be available here
 final Map<String, WidgetBuilder> routes = {
-  SplashScreen.routeName: (context) => SplashScreen(),
-  HomeScreen.routeName: (context) => HomeScreen(),
-  AddPatient.routeName: (context) => AddPatient(),
-  Profile.routeName: (context) => Profile(),
-  Tests.routeName: (context) => Tests(),
-  AddTest.routeName: (context) => AddTest(),
+  SplashScreen.routeName: (context) => const SplashScreen(),
+  HomeScreen.routeName: (context) => const HomeScreen(),
+  AddPatient.routeName: (context) => const AddPatient(),
+  Profile.routeName: (context) => const Profile(),
+  Tests.routeName: (context) => const Tests(),
+  AddTest.routeName: (context) => const AddTest(),
 };

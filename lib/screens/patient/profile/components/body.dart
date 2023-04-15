@@ -1,12 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:milestone/screens/home/components/body.dart';
 import 'package:milestone/screens/patient/tests/tests.dart';
 import 'package:milestone/size_config.dart';
+
+class RouteGenerator {
+  static void generateRoute(RouteSettings settings) {
+    final args = settings.arguments;
+    print("as;kdlakld-----------${args}");
+  }
+}
 
 class Body extends StatelessWidget {
   const Body({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final route = ModalRoute.of(context)!.settings.arguments;
+    print("todo : ==== -= -= -= -= ${route}");
     return SafeArea(
       child: SingleChildScrollView(
         child: Column(
@@ -159,12 +169,17 @@ class Body extends StatelessWidget {
                       splashColor: Colors.red.withAlpha(90),
                       onTap: () {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Patient Delete')));
+                            const SnackBar(content: Text('Patient Delete')));
                       },
                       child: const SizedBox(
                         width: 300,
                         height: 50,
-                        child: Center(child: Text('Delete Patient', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.red))),
+                        child: Center(
+                            child: Text('Delete Patient',
+                                style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.red))),
                       ),
                     ),
                   ),

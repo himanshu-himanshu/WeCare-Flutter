@@ -3,7 +3,6 @@ import 'package:milestone/size_config.dart';
 
 import '../../addTest/components/testForm.dart';
 
-
 class Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -12,7 +11,7 @@ class Body extends StatelessWidget {
         width: double.infinity,
         child: Padding(
           padding:
-          EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
+              EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
           child: SingleChildScrollView(
             child: Column(
               children: const [

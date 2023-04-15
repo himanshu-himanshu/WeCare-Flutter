@@ -11,8 +11,14 @@ class AddTest extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(onPressed: () {}, icon: const Icon(Icons.arrow_back),),
-        title: const Text("Add Record", style: TextStyle(color: Colors.deepPurple, fontSize: 20),),
+        leading: IconButton(
+          onPressed: () {},
+          icon: const Icon(Icons.arrow_back),
+        ),
+        title: const Text(
+          "Add Record",
+          style: TextStyle(color: Colors.deepPurple, fontSize: 20),
+        ),
       ),
       body: Body(),
     );

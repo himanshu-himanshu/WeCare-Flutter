@@ -1,14 +1,13 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:milestone/constants.dart';
-import 'package:milestone/screens/home/home_screen.dart';
+// import 'package:milestone/screens/home/home_screen.dart';
+import 'package:milestone/screens/patient/tests/tests.dart';
 import 'package:milestone/size_config.dart';
 import 'package:http/http.dart' as http;
 import 'package:validatorless/validatorless.dart';
 
 class MyCustomForm extends StatefulWidget {
-  const MyCustomForm();
+  const MyCustomForm({super.key});
 
   @override
   MyCustomFormState createState() {
@@ -21,42 +20,39 @@ class MyCustomFormState extends State<MyCustomForm> {
   MyCustomFormState();
   // Create a global key that uniquely identifies the Form widget
   // and allows validation of the form.
-  final nameCtrl = TextEditingController();
-  final phoneCtrl = TextEditingController();
-  final dobCtrl = TextEditingController();
-  final addressCtrl = TextEditingController();
-  final countryCtrl = TextEditingController();
-  final bloodGroupCtrl = TextEditingController();
+  final bpLowCtrl = TextEditingController();
+  final bpHighCtrl = TextEditingController();
+  final respiratoryRateCtrl = TextEditingController();
+  final bloodOxygenCtrl = TextEditingController();
+  final heartBeatCtrl = TextEditingController();
+  final riskCtrl = TextEditingController();
 
   final _formKey = GlobalKey<MyCustomFormState>();
 
-  void addPatient(BuildContext context, name, phone, dob, address, country,
-      bloodGroup) async {
-    final uri = Uri.parse('http://localhost:8001/patients');
+  void addTest(BuildContext context, bpLow, bpHigh, respiratoryRate,
+      bloodOxygen, heartBeat, risk) async {
+    const id = "642a3a223979691cc9f15b07";
+    final uri = Uri.parse('http://localhost:8001/patients/$id/tests');
     final headers = {'Content-Type': 'application/json'};
     Map<String, dynamic> body = {
-      "name": name,
-      "phone": phone,
-      "dob": dob,
-      "address": address,
-      "country": country,
-      "bloodGroup": bloodGroup
+      "bloodPressureHigh": bpLow,
+      "bloodPressureLow": bpHigh,
+      "respiratoryRate": respiratoryRate,
+      "bloodOxygen": bloodOxygen,
+      "heartBeat": heartBeat,
+      "risk": risk
     };
     String jsonBody = json.encode(body);
     final encoding = Encoding.getByName('utf-8');
 
-    http.Response response = await http.post(
-      uri,
-      headers: headers,
-      body: jsonBody,
-      encoding: encoding,
-    );
+    // http.Response response = await http.post(
+    await http.post(uri, headers: headers, body: jsonBody, encoding: encoding);
     // int statusCode = response.statusCode;
     // String responseBody = response.body;
     // ignore: use_build_context_synchronously
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => const HomeScreen()),
+      MaterialPageRoute(builder: (context) => const Tests()),
     );
   }
 
@@ -78,12 +74,9 @@ class MyCustomFormState extends State<MyCustomForm> {
               ),
               // ignore: body_might_complete_normally_nullable
               onChanged: (value) {},
-              validator: Validatorless.multiple([
-                Validatorless.required('Name is required'),
-                Validatorless.max(
-                    20, 'Name should not exceed more than 20 characters'),
-              ]),
-              controller: nameCtrl,
+              validator: Validatorless.multiple(
+                  [Validatorless.required('Low Bp Is required')]),
+              controller: bpLowCtrl,
             ),
             SizedBox(height: SizeConfig.screenHeight * 0.02),
             TextFormField(
@@ -93,12 +86,9 @@ class MyCustomFormState extends State<MyCustomForm> {
                 labelText: 'Blood Pressure',
               ),
               onChanged: (value) {},
-              validator: Validatorless.multiple([
-                Validatorless.required('Phone is required'),
-                Validatorless.max(
-                    20, 'Phone No. should not exceed more than 20 characters'),
-              ]),
-              controller: phoneCtrl,
+              validator: Validatorless.multiple(
+                  [Validatorless.required('High Bp is required')]),
+              controller: bpHighCtrl,
             ),
             SizedBox(height: SizeConfig.screenHeight * 0.02),
             TextFormField(
@@ -108,11 +98,9 @@ class MyCustomFormState extends State<MyCustomForm> {
                 labelText: 'Respiratory Rate',
               ),
               onChanged: (value) {},
-              validator: Validatorless.multiple([
-                Validatorless.required('Date is required'),
-                Validatorless.date('2023/30/01 format required'),
-              ]),
-              controller: dobCtrl,
+              validator: Validatorless.multiple(
+                  [Validatorless.required('Respiratory Rate is required')]),
+              controller: respiratoryRateCtrl,
             ),
             SizedBox(height: SizeConfig.screenHeight * 0.02),
             TextFormField(
@@ -122,12 +110,9 @@ class MyCustomFormState extends State<MyCustomForm> {
                 labelText: 'Blood Oxygen',
               ),
               onChanged: (value) {},
-              validator: Validatorless.multiple([
-                Validatorless.required('Address is required'),
-                Validatorless.max(
-                    200, 'Address. should not exceed more than 200 characters'),
-              ]),
-              controller: addressCtrl,
+              validator: Validatorless.multiple(
+                  [Validatorless.required('Blood Oxygen Level is required')]),
+              controller: bloodOxygenCtrl,
             ),
             SizedBox(height: SizeConfig.screenHeight * 0.02),
             TextFormField(
@@ -137,12 +122,9 @@ class MyCustomFormState extends State<MyCustomForm> {
                 labelText: 'Heartbeat',
               ),
               onChanged: (value) {},
-              validator: Validatorless.multiple([
-                Validatorless.required('Country is required'),
-                Validatorless.max(
-                    20, 'Country should not exceed more than 20 characters'),
-              ]),
-              controller: countryCtrl,
+              validator: Validatorless.multiple(
+                  [Validatorless.required('Heart Beat is required')]),
+              controller: heartBeatCtrl,
             ),
             SizedBox(height: SizeConfig.screenHeight * 0.02),
             TextFormField(
@@ -152,8 +134,8 @@ class MyCustomFormState extends State<MyCustomForm> {
               ),
               onChanged: (value) {},
               validator: Validatorless.multiple(
-                  [Validatorless.required('Blood Group is required')]),
-              controller: bloodGroupCtrl,
+                  [Validatorless.required('Risk Level is required')]),
+              controller: riskCtrl,
             ),
             SizedBox(height: SizeConfig.screenHeight * 0.04),
             SizedBox(
@@ -162,25 +144,25 @@ class MyCustomFormState extends State<MyCustomForm> {
                 child: ElevatedButton(
                   onPressed: () {
                     print(
-                        "${nameCtrl.text}, ${phoneCtrl.text}, ${dobCtrl.text}, ${addressCtrl.text}, ${countryCtrl.text}, ${bloodGroupCtrl.text}");
+                        "${bpLowCtrl.text}, ${bpHighCtrl.text}, ${respiratoryRateCtrl.text}, ${bloodOxygenCtrl.text}, ${heartBeatCtrl.text}, ${riskCtrl.text}");
                     var msg = "";
-                    if (nameCtrl.text.isEmpty) {
-                      msg = "Name is required\n ";
+                    if (bpLowCtrl.text.isEmpty) {
+                      msg = "Low Bp is required\n ";
                     }
-                    if (phoneCtrl.text.isEmpty) {
-                      msg += "Phone is required\n ";
+                    if (bpHighCtrl.text.isEmpty) {
+                      msg += "High Bp is required\n ";
                     }
-                    if (dobCtrl.text.isEmpty) {
-                      msg += "DOB is required\n ";
+                    if (respiratoryRateCtrl.text.isEmpty) {
+                      msg += "Respiratory Rate is required\n";
                     }
-                    if (addressCtrl.text.isEmpty) {
-                      msg += "Address is required\n ";
+                    if (bloodOxygenCtrl.text.isEmpty) {
+                      msg += "Blood Oxygen is required\n";
                     }
-                    if (countryCtrl.text.isEmpty) {
-                      msg += "Country is required\n ";
+                    if (heartBeatCtrl.text.isEmpty) {
+                      msg += "Heart Beat is required\n";
                     }
-                    if (bloodGroupCtrl.text.isEmpty) {
-                      msg += "Blood Group is required\n ";
+                    if (riskCtrl.text.isEmpty) {
+                      msg += "Risk Level is required\n";
                     }
                     print(msg);
                     if (!msg.isEmpty) {
@@ -198,14 +180,14 @@ class MyCustomFormState extends State<MyCustomForm> {
                         ),
                       );
                     }
-                    addPatient(
+                    addTest(
                         context,
-                        nameCtrl.text,
-                        phoneCtrl.text,
-                        dobCtrl.text,
-                        addressCtrl.text,
-                        countryCtrl.text,
-                        bloodGroupCtrl.text);
+                        bpLowCtrl.text,
+                        bpHighCtrl.text,
+                        respiratoryRateCtrl.text,
+                        bloodOxygenCtrl.text,
+                        heartBeatCtrl.text,
+                        riskCtrl.text);
                   },
                   style: ElevatedButton.styleFrom(
                       shape: const StadiumBorder(),
