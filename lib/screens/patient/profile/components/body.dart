@@ -1,22 +1,55 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:milestone/screens/home/components/body.dart';
+// import 'package:milestone/screens/home/components/body.dart';
+import 'package:milestone/screens/home/home_screen.dart';
+import 'package:milestone/screens/patient/tests/components/body.dart';
 import 'package:milestone/screens/patient/tests/tests.dart';
 import 'package:milestone/size_config.dart';
+import 'package:http/http.dart' as http;
 
-class RouteGenerator {
-  static void generateRoute(RouteSettings settings) {
-    final args = settings.arguments;
-    print("as;kdlakld-----------${args}");
-  }
-}
+// class RouteGenerator {
+//   static void generateRoute(RouteSettings settings) {
+//     final args = settings.arguments;
+//     print("as;kdlakld-----------${args}");
+//   }
+// }
 
 class Body extends StatelessWidget {
   const Body({super.key});
+  void deletePatient(BuildContext context, id) async {
+    final uri = Uri.parse('http://localhost:8001/patients/$id');
+    final headers = {'Content-Type': 'application/json'};
+    // Map<String, dynamic> body = {
+    //   "bloodPressureHigh": bpLow,
+    //   "bloodPressureLow": bpHigh,
+    //   "respiratoryRate": respiratoryRate,
+    //   "bloodOxygen": bloodOxygen,
+    //   "heartBeat": heartBeat,
+    //   "risk": risk
+    // };
+    // String jsonBody = json.encode(body);
+    final encoding = Encoding.getByName('utf-8');
+
+    // http.Response response = await http.post(
+    // http.Response response =
+    await http.delete(uri, headers: headers, encoding: encoding);
+    // int statusCode = response.statusCode;
+    // String responseBody = response.body;
+    // ignore: use_build_context_synchronously
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const HomeScreen()),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    final route = ModalRoute.of(context)!.settings.arguments;
-    print("todo : ==== -= -= -= -= ${route}");
+    // final ScreenArguments args = ModalRoute.of(context).settings.arguments;
+    final args =
+        ModalRoute.of(context)!.settings.arguments as ProfileScreenArguments;
+    // print("todo12312312312        ${route}");
     return SafeArea(
       child: SingleChildScrollView(
         child: Column(
@@ -45,22 +78,22 @@ class Body extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      const SizedBox(width: 40),
-                      Expanded(
-                        child: SizedBox(
-                          width: 130,
-                          height: 55,
-                          child: ElevatedButton(
-                            onPressed: () {},
-                            style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.blue,
-                                side: BorderSide.none,
-                                shape: const StadiumBorder()),
-                            child: const Text("Edit Patient",
-                                style: TextStyle(color: Colors.white)),
-                          ),
-                        ),
-                      ),
+                      // const SizedBox(width: 40),
+                      // Expanded(
+                      //   child: SizedBox(
+                      //     width: 130,
+                      //     height: 55,
+                      //     child: ElevatedButton(
+                      //       onPressed: () {},
+                      //       style: ElevatedButton.styleFrom(
+                      //           backgroundColor: Colors.blue,
+                      //           side: BorderSide.none,
+                      //           shape: const StadiumBorder()),
+                      //       child: const Text("Edit Patient",
+                      //           style: TextStyle(color: Colors.white)),
+                      //     ),
+                      //   ),
+                      // ),
                       const SizedBox(width: 40),
                       Expanded(
                         child: SizedBox(
@@ -97,11 +130,11 @@ class Body extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.center,
-                    children: const [
-                      SizedBox(width: 40),
+                    children: [
+                      const SizedBox(width: 40),
                       Expanded(
                         flex: 5,
-                        child: Text("Age: 27",
+                        child: Text("Age: ${args.age}",
                             style: TextStyle(
                                 fontSize: 16, fontWeight: FontWeight.w600)),
                       ),
@@ -168,8 +201,11 @@ class Body extends StatelessWidget {
                     child: InkWell(
                       splashColor: Colors.red.withAlpha(90),
                       onTap: () {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('Patient Delete')));
+                        // ScaffoldMessenger.of(context).showSnackBar(
+                        //     const SnackBar(content: Text('Patient Delete'))
+                        // );
+                        const id = args.id;
+                        deletePatient(context, id);
                       },
                       child: const SizedBox(
                         width: 300,

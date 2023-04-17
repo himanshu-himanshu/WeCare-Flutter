@@ -1,13 +1,14 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:milestone/screens/home/components/icon_button.dart';
+import 'package:milestone/screens/patient/addTest/addTest.dart';
 // import 'package:milestone/screens/patient/profile/profile.dart';
 import 'package:milestone/size_config.dart';
 import 'package:http/http.dart' as http;
-import '../../../patient/tests//components/tests_header.dart';
 
 Future<List<Test>> fetchTests() async {
-  const id = "642a3a223979691cc9f15b07";
+  const id = "643cb52b0f61066aec545d9a";
   final response = await http
       .get(Uri.parse('http://localhost:8001/patients/' + id + '/tests'));
   if (response.statusCode == 200) {
@@ -23,6 +24,11 @@ Future<List<Test>> fetchTests() async {
   } else {
     throw Exception('Failed to load data');
   }
+}
+
+class ProfileScreenArguments {
+  final String id;
+  ProfileScreenArguments(this.id);
 }
 
 class Test {
@@ -61,12 +67,32 @@ class Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // final args =
+    //     ModalRoute.of(context)!.settings.arguments as ProfileScreenArguments;
+    // print('args');
+    // print(args);
     return SafeArea(
       child: SingleChildScrollView(
         child: Column(
           children: [
             SizedBox(height: getProportionateScreenWidth(10)),
-            const TestsHeader(),
+            Padding(
+              padding: EdgeInsets.symmetric(
+                  horizontal: getProportionateScreenWidth(20)),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  // SearchField(),
+                  /** Icon for showing number of critical patient's*/
+                  IconBtnWithCounter(
+                    svgSrc: "assets/icons/Plus Icon.svg",
+                    numOfitem: 0,
+                    press: () =>
+                        Navigator.pushNamed(context, AddTest.routeName),
+                  ),
+                ],
+              ),
+            ),
             SizedBox(height: getProportionateScreenWidth(10)),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -96,10 +122,26 @@ class Body extends StatelessWidget {
                                   vertical: 4, horizontal: 4),
                               child: ListTile(
                                 onTap: () {
+                                  showDialog<String>(
+                                    context: context,
+                                    builder: (BuildContext context) =>
+                                        AlertDialog(
+                                      title: const Text('Record'),
+                                      content: Text(
+                                          "Risk: ${snapshot.data![index].risk} \nBp: ${snapshot.data![index].bloodPressureLow} ${snapshot.data![index].bloodPressureHigh}\nRespiratory Rate:${snapshot.data![index].respiratoryRate}\nBlood Oxygen: ${snapshot.data![index].bloodOxygen}\nHeartBeat: ${snapshot.data![index].heartBeat}"),
+                                      actions: <Widget>[
+                                        TextButton(
+                                          onPressed: () =>
+                                              Navigator.pop(context, 'OK'),
+                                          child: const Text('OK'),
+                                        ),
+                                      ],
+                                    ),
+                                  );
                                   // Navigator.pushNamed(context, Profile.routeName);
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                          content: Text('Go To Test')));
+                                  // ScaffoldMessenger.of(context).showSnackBar(
+                                  //     const SnackBar(
+                                  //         content: Text('Go To Test')));
                                 },
                                 hoverColor: Colors.amber,
                                 leading: CircleAvatar(

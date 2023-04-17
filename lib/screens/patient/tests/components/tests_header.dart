@@ -13,7 +13,7 @@ class TestsHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding:
-      EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
+          EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(20)),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -22,8 +22,7 @@ class TestsHeader extends StatelessWidget {
           IconBtnWithCounter(
             svgSrc: "assets/icons/Plus Icon.svg",
             numOfitem: 0,
-            press: () =>
-                Navigator.pushNamed(context, AddTest.routeName),
+            press: () => Navigator.pushNamed(context, AddTest.routeName),
           ),
         ],
       ),
